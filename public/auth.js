@@ -1,22 +1,37 @@
 
 async function api(url, options = {}) {
-  const response = await fetch(url, {
-    credentials: "same-origin",
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {})
+  try {
+    console.log("Enviando requisição:", url);
+
+    const response = await fetch(url, {
+      ...options,
+      credentials: "same-origin",
+      headers: {
+        ...(options.headers || {}),
+        "Content-Type": "application/json"
+      }
+    });
+
+    console.log("Resposta do servidor:", response.status);
+
+    const data = await response.json();
+
+    console.log("Dados recebidos:", data);
+
+    if (!response.ok) {
+      throw new Error(
+        data.detalhe || data.error || "Erro na operação."
+      );
     }
-  });
 
-  const data = await response.json();
+    return data;
 
-  if (!response.ok) {
-    throw new Error(data.error || "Não foi possível concluir a operação.");
+  } catch (error) {
+    console.error("ERRO NA API:", error);
+    throw error;
   }
-
-  return data;
 }
+
 
 function mostrarMensagem(texto, erro = false) {
   const elemento = document.getElementById("mensagem");
