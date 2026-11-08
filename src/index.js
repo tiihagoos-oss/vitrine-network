@@ -176,21 +176,11 @@ async function handleAPI(request, env) {
       });
 
       
-       } catch (error) {
-      console.error("ERRO NO CADASTRO:", error);
-
-      const mensagem = String(error.message || error);
-
-      if (mensagem.toLowerCase().includes("unique")) {
-        return json({
-          error: "Este e-mail já está cadastrado."
-        }, 409);
+    } catch (error) {
+      if (String(error.message).toLowerCase().includes("unique")) {
+        return json({ error: "Este e-mail já está cadastrado." }, 409);
       }
-
-      return json({
-        error: "Falha no cadastro.",
-        detalhe: mensagem
-      }, 500);
+      return json({ error: "Não foi possível criar a conta." }, 500);
     }
 
     
