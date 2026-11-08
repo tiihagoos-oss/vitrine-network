@@ -264,20 +264,22 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (url.pathname.startsWith("/api/")) {
-      try {
-        return await handleAPI(request, env);
+    
 
+if (url.pathname.startsWith("/api/")) {
+  try {
+    return await handleAPI(request, env);
+  } catch (error) {
+    console.error("ERRO GERAL:", error);
 
-        
-} catch (error) {
-  return json({
-    error: "Erro interno. Tente novamente."
-  }, 500);
+    return json({
+      error: "Erro interno no servidor.",
+      detalhe: String(error.message || error)
+    }, 500);
+  }
 }
 
-      
-    }
+    
 
     return env.ASSETS.fetch(request);
   }
