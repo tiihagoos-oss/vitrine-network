@@ -267,11 +267,14 @@ export default {
     if (url.pathname.startsWith("/api/")) {
       try {
         return await handleAPI(request, env);
-      } catch (error) {
-        return json({
-          error: "Erro interno. Tente novamente."
-        }, 500);
-      }
+} catch (error) {
+  console.error("ERRO NA VITRINE NETWORK:", error);
+
+  return json({
+    error: "Erro interno no servidor.",
+    detalhe: error.message
+  }, 500);
+}
     }
 
     return env.ASSETS.fetch(request);
