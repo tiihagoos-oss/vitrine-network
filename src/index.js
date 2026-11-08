@@ -261,6 +261,139 @@ async function handleAPI(request, env) {
     });
   }
 
+
+  // LISTAR PRODUTOS DO VENDEDOR
+  if (method === "GET" && path === "/api/products") {
+    const user = await currentUser(request, env);
+
+    if (!user) {
+      return json({ error: "Faça login para continuar." }, 401);
+    }
+
+    const result = await env.DB.prepare(`
+      SELECT id, nome, descricao, imagem_url, link_url, ativo, criado_em
+      FROM produtos
+      WHERE vendedor_id = ?
+      ORDER BY id DESC
+    `).bind(user.id).all();
+
+    return json({ produtos: result.results });
+  }
+
+  // CADASTRAR PRODUTO
+  if (method === "POST" && path === "/api/products") {
+    const origin = request.headers.get("Origin");
+
+    if (origin && origin !== url.origin) {
+      return json({ error: "Origem não permitida." }, 403);
+    }
+
+    const user = await currentUser(request, env);
+
+    if (!user) {
+      return json({ error: "Faça login para continuar." }, 401);
+    }
+
+    let data;
+
+    try {
+      data = await request.json();
+    } catch {
+      return json({ error: "Dados inválidos." }, 400);
+    }
+
+    const nome = String(data.nome || "").trim();
+    const descricao = String(data.descricao || "").trim();
+    const imagem = String(data.imagem_url || "").trim();
+    const link = String(data.link_url || "").trim();
+
+    if (nome.length < 2 || nome.length > 120) {
+      return json({ error: "Nome do produto inválido." }, 400);
+    }
+
+    if (descricao.length > 500) {
+      return json({ error: "Descrição muito longa." }, 400);
+    }
+
+    if (link.length > 2048 || imagem.length > 2048) {
+      return json({ error: "Endereço muito longo." }, 400);
+    }
+
+    try {
+      const linkURL = new URL(link);
+
+      if (!["https:", "http:"].includes(linkURL.protocol)) {
+        throw new Error("Link inválido.");
+      }
+
+      if (imagem) {
+        const imagemURL = new URL(imagem);
+
+        if (!["https:", "http:"].includes(imagemURL.protocol)) {
+          throw new Error("Imagem inválida.");
+        }
+      }
+    } catch {
+      return json({
+        error: "Informe links válidos começando com https:// ou http://."
+      }, 400);
+    }
+
+    const result = await env.DB.prepare(`
+      INSERT INTO produtos
+      (vendedor_id, nome, descricao, imagem_url, link_url)
+      VALUES (?, ?, ?, ?, ?)
+    `).bind(
+      user.id,
+      nome,
+      descricao,
+      imagem || null,
+      link
+    ).run();
+
+    return json({
+      sucesso: true,
+      mensagem: "Produto cadastrado!",
+      id: result.meta.last_row_id
+    }, 201);
+  }
+
+  // EXCLUIR PRODUTO
+  if (method === "DELETE" && /^\/api\/products\/\d+$/.test(path)) {
+    const origin = request.headers.get("Origin");
+
+    if (origin && origin !== url.origin) {
+      return json({ error: "Origem não permitida." }, 403);
+    }
+
+    const user = await currentUser(request, env);
+
+    if (!user) {
+      return json({ error: "Faça login para continuar." }, 401);
+    }
+
+    const id = Number(path.split("/").pop());
+
+    const result = await env.DB.prepare(`
+      DELETE FROM produtos
+      WHERE id = ? AND vendedor_id = ?
+    `).bind(id, user.id).run();
+
+    if (!result.meta.changes) {
+      return json({ error: "Produto não encontrado." }, 404);
+    }
+
+    return json({
+      sucesso: true,
+      mensagem: "Produto excluído."
+    });
+  }
+
+
+  
+  
+
+  
   return json({ error: "Rota não encontrada." }, 404);
 }
 
