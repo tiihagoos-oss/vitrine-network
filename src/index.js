@@ -273,12 +273,14 @@ export default {
 if (url.pathname.startsWith("/api/")) {
   try {
     return await handleAPI(request, env);
-  } catch (error) {
-    return json({
-      error: "Erro interno no servidor.",
-      detalhe: error.message
-    }, 500);
-  }
+ } catch (error) {
+  console.error("ERRO GERAL DO WORKER:", error);
+
+  return json({
+    error: "Erro interno no servidor.",
+    codigo: "WORKER_ERROR",
+    detalhe: String(error.message || error)
+  }, 500);
 }
 
     
