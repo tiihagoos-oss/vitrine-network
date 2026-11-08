@@ -1,1 +1,108 @@
 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha Vitrine | Vitrine Network</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+
+  <main class="vitrine-dashboard">
+
+    <header class="vitrine-header">
+      <a href="/" class="logo">Vitrine<span>Network</span></a>
+      <button id="logoutButton" class="btn-secondary">
+        Sair
+      </button>
+    </header>
+
+    <section class="vitrine-welcome">
+      <span class="tag">ÁREA DO VENDEDOR</span>
+      <h1>Minha Vitrine</h1>
+      <p>Gerencie seus produtos e links de divulgação.</p>
+      <h3 id="sellerName">Carregando vendedor...</h3>
+    </section>
+
+    <section class="product-form-section">
+      <h2>Adicionar produto</h2>
+      <p>Cadastre produtos de lojas e plataformas externas.</p>
+
+      <form id="productForm">
+
+        <label for="nomeProduto">Nome do produto</label>
+        <input
+          id="nomeProduto"
+          type="text"
+          maxlength="120"
+          required
+          placeholder="Ex.: Fone Bluetooth"
+        >
+
+        <label for="descricaoProduto">Descrição</label>
+        <textarea
+          id="descricaoProduto"
+          maxlength="500"
+          rows="3"
+          placeholder="Descreva seu produto..."
+        ></textarea>
+
+        <label for="imagemProduto">Link da imagem (opcional)</label>
+        <input
+          id="imagemProduto"
+          type="url"
+          placeholder="https://site.com/imagem.jpg"
+        >
+
+        <label for="linkProduto">Link de compra ou afiliado</label>
+        <input
+          id="linkProduto"
+          type="url"
+          required
+          placeholder="https://loja.com/produto"
+        >
+
+        <button type="submit" class="btn-primary auth-button">
+          Cadastrar produto
+        </button>
+
+        <div id="mensagemProduto" role="status"></div>
+
+      </form>
+    </section>
+
+    <section class="my-products-section">
+      <div class="products-heading">
+        <div>
+          <h2>Meus produtos</h2>
+          <p>Produtos cadastrados na sua vitrine.</p>
+        </div>
+        <span id="productCount">0 produtos</span>
+      </div>
+
+      <div id="productsList" class="products-list">
+        Carregando produtos...
+      </div>
+    </section>
+
+    <section class="advertising-section">
+      <span class="tag">REDE DE VENDEDORES</span>
+      <h2>Publicidade compartilhada</h2>
+      <p>
+        Em breve, produtos de outros vendedores poderão
+        aparecer neste espaço da sua vitrine.
+      </p>
+      <div class="advertising-placeholder">
+        Espaço reservado para publicidade da rede
+      </div>
+    </section>
+
+  </main>
+
+  <script src="auth.js"></script>
+  <script src="vitrine.js"></script>
+
+</body>
+</html>
+
