@@ -849,3 +849,23 @@ footer small {
   }
 }
 
+.btn-secondary {
+  display: inline-block;
+  padding: 12px 24px;
+  background: transparent;
+  color: #5544df;
+  border: 2px solid #5544df;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: .3s ease;
+}
+
+.btn-secondary:hover {
+  background: #5544df;
+  color: #ffffff;
+}
+
