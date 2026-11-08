@@ -273,22 +273,19 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    
+    if (url.pathname.startsWith("/api/")) {
+      try {
+        return await handleAPI(request, env);
+      } catch (error) {
+        console.error("ERRO GERAL DO WORKER:", error);
 
-if (url.pathname.startsWith("/api/")) {
-  try {
-    return await handleAPI(request, env);
- } catch (error) {
-  console.error("ERRO GERAL DO WORKER:", error);
-
-  return json({
-    error: "Erro interno no servidor.",
-    codigo: "WORKER_ERROR",
-    detalhe: String(error.message || error)
-  }, 500);
-}
-
-    
+        return json({
+          error: "Erro interno no servidor.",
+          codigo: "WORKER_ERROR",
+          detalhe: String(error.message || error)
+        }, 500);
+      }
+    }
 
     return env.ASSETS.fetch(request);
   }
