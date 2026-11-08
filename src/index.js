@@ -107,12 +107,7 @@ async function handleAPI(request, env) {
   const path = url.pathname;
   const method = request.method;
 
-  console.log("REQUISIÇÃO RECEBIDA:", method, path);
-
   if (method === "GET" && path === "/api/status") {
-    
-    console.log("ENTROU NA ROTA DE CADASTRO");
-    
     const result = await env.DB.prepare(`
       SELECT name FROM sqlite_master
       WHERE type = 'table' ORDER BY name
