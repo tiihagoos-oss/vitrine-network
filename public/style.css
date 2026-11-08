@@ -849,23 +849,28 @@ footer small {
   }
 }
 
+.btn-primary,
 .btn-secondary {
-  display: inline-block;
-  padding: 12px 24px;
-  background: transparent;
-  color: #5544df;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 13px 24px;
+  min-width: 160px;
+  background: #5544df;
+  color: #ffffff;
   border: 2px solid #5544df;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 600;
   font-size: 14px;
-  text-align: center;
+  font-weight: 600;
   cursor: pointer;
-  transition: .3s ease;
+  transition: all .3s ease;
 }
 
+.btn-primary:hover,
 .btn-secondary:hover {
-  background: #5544df;
+  background: #4031bd;
+  border-color: #4031bd;
   color: #ffffff;
+  transform: translateY(-2px);
 }
-
