@@ -267,14 +267,25 @@ export default {
     if (url.pathname.startsWith("/api/")) {
       try {
         return await handleAPI(request, env);
+
+
+        
 } catch (error) {
-  console.error("ERRO NA VITRINE NETWORK:", error);
+  console.error("ERRO AO CADASTRAR VENDEDOR:", error);
+
+  if (String(error.message).toLowerCase().includes("unique")) {
+    return json({
+      error: "Este e-mail já está cadastrado."
+    }, 409);
+  }
 
   return json({
-    error: "Erro interno no servidor.",
-    detalhe: error.message
+    error: "Falha ao criar vendedor ou sessão. Consulte os logs do Worker."
   }, 500);
 }
+
+
+      
     }
 
     return env.ASSETS.fetch(request);
