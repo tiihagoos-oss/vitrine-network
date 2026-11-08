@@ -270,11 +270,9 @@ if (url.pathname.startsWith("/api/")) {
   try {
     return await handleAPI(request, env);
   } catch (error) {
-    console.error("ERRO GERAL:", error);
-
     return json({
       error: "Erro interno no servidor.",
-      detalhe: String(error.message || error)
+      detalhe: error.message
     }, 500);
   }
 }
