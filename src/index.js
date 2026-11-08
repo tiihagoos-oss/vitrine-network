@@ -174,12 +174,26 @@ async function handleAPI(request, env) {
       }, 201, {
         "Set-Cookie": sessionCookie(token)
       });
-    } catch (error) {
-      if (String(error.message).toLowerCase().includes("unique")) {
-        return json({ error: "Este e-mail já está cadastrado." }, 409);
+
+      
+       } catch (error) {
+      console.error("ERRO NO CADASTRO:", error);
+
+      const mensagem = String(error.message || error);
+
+      if (mensagem.toLowerCase().includes("unique")) {
+        return json({
+          error: "Este e-mail já está cadastrado."
+        }, 409);
       }
-      return json({ error: "Não foi possível criar a conta." }, 500);
+
+      return json({
+        error: "Falha no cadastro.",
+        detalhe: mensagem
+      }, 500);
     }
+
+    
   }
 
   if (method === "POST" && path === "/api/login") {
