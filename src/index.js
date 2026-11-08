@@ -1,6 +1,6 @@
 
 const SESSION_DAYS = 7;
-const PASSWORD_ITERATIONS = 310000;
+const PASSWORD_ITERATIONS = 10000;
 
 function json(data, status = 200, headers = {}) {
   return new Response(JSON.stringify(data), {
