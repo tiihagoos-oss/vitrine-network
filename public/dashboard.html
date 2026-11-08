@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu painel | Vitrine Network</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+  <main class="auth-card dashboard-card">
+    <a href="/" class="logo">Vitrine<span>Network</span></a>
+    <span class="tag">ÁREA DO VENDEDOR</span>
+    <h1>Minha conta</h1>
+    <p>Bem-vindo à sua área exclusiva.</p>
+
+    <div class="seller-info">
+      <strong id="sellerName">Carregando...</strong>
+      <span id="sellerEmail"></span>
+    </div>
+
+    <div class="dashboard-options">
+      <div>
+        <strong>Minha vitrine</strong>
+        <p>Em breve você poderá cadastrar seus produtos.</p>
+      </div>
+      <div>
+        <strong>Publicidade compartilhada</strong>
+        <p>Em breve você poderá participar da divulgação da rede.</p>
+      </div>
+    </div>
+
+    <button class="btn-primary auth-button" id="logoutButton">
+      Sair da minha conta
+    </button>
+    <div id="mensagem" class="auth-message" role="status"></div>
+  </main>
+  <script src="auth.js"></script>
+</body>
+</html>
