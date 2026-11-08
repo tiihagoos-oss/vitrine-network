@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vitrine Network | Sua vitrine, nossa rede</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header">
+  <a href="#" class="logo">Vitrine<span>Network</span></a>
+
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#produtos">Produtos</a>
+    <a href="#vendedores">Vendedores</a>
+    <a href="#sobre">Como funciona</a>
+  </nav>
+
+  <div class="header-actions">
+    <button class="btn-outline" onclick="entrar()">Entrar</button>
+    <button class="btn-primary" onclick="cadastrar()">Criar minha vitrine</button>
+  </div>
+
+  <button class="menu-mobile" onclick="toggleMenu()">☰</button>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <span class="tag">UMA REDE DE OPORTUNIDADES</span>
+      <h1>Sua vitrine merece ser vista por <span>milhares de pessoas.</span></h1>
+      <p>
+        Crie sua vitrine digital, divulgue seus produtos e participe
+        de uma rede onde vendedores ajudam vendedores a crescer.
+      </p>
+      <div class="hero-buttons">
+        <button class="btn-primary btn-large" onclick="cadastrar()">
+          Quero minha vitrine →
+        </button>
+        <a href="#sobre" class="btn-outline btn-large">Conhecer a plataforma</a>
+      </div>
+      <div class="hero-info">
+        <span>✓ Sua própria vitrine</span>
+        <span>✓ Divulgação compartilhada</span>
+        <span>✓ Produtos por links</span>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="visual-card">
+        <div class="visual-top">
+          <strong>Vitrine do vendedor</strong>
+          <span class="online">● Rede ativa</span>
+        </div>
+        <div class="visual-products">
+          <div class="mini-product">
+            <div class="mini-image">⌚</div>
+            <strong>Smartwatch</strong>
+            <small>R$ 129,90</small>
+          </div>
+          <div class="mini-product">
+            <div class="mini-image">🎧</div>
+            <strong>Fone Bluetooth</strong>
+            <small>R$ 89,90</small>
+          </div>
+        </div>
+        <div class="shared-ad">
+          <span>PUBLICIDADE DA REDE</span>
+          <div>
+            <span class="ad-icon">✨</span>
+            <div>
+              <strong>Produto de um parceiro</strong>
+              <small>Mais visibilidade para todos</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-label">↗ Divulgação compartilhada</div>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div><strong>01</strong><span>Sua vitrine exclusiva</span></div>
+    <div><strong>02</strong><span>Produtos por links</span></div>
+    <div><strong>03</strong><span>Rede de divulgação</span></div>
+    <div><strong>04</strong><span>Novas oportunidades</span></div>
+  </section>
+
+  <section class="section" id="produtos">
+    <div class="section-heading">
+      <div>
+        <span class="tag">VITRINES DA REDE</span>
+        <h2>Produtos em destaque</h2>
+        <p>Descubra produtos anunciados pelos vendedores participantes.</p>
+      </div>
+      <button class="btn-outline" onclick="verProdutos()">Ver todos →</button>
+    </div>
+
+    <div class="filters">
+      <button class="filter active" onclick="filtrar('Todos', this)">Todos</button>
+      <button class="filter" onclick="filtrar('Tecnologia', this)">Tecnologia</button>
+      <button class="filter" onclick="filtrar('Beleza', this)">Beleza</button>
+      <button class="filter" onclick="filtrar('Casa', this)">Casa</button>
+      <button class="filter" onclick="filtrar('Moda', this)">Moda</button>
+    </div>
+
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <section class="network-section" id="vendedores">
+    <div>
+      <span class="tag">REDE COLABORATIVA</span>
+      <h2>Um vendedor divulga. Outro vendedor também ganha visibilidade.</h2>
+      <p>
+        Sua vitrine apresenta seus produtos e também pode exibir
+        produtos de outros participantes da rede.
+      </p>
+      <button class="btn-primary" onclick="cadastrar()">Participar da rede →</button>
+    </div>
+    <div class="network-demo">
+      <div class="network-node main-node">SUA VITRINE</div>
+      <div class="network-lines">↙　↓　↘</div>
+      <div class="network-others">
+        <span>Vendedor A</span>
+        <span>Vendedor B</span>
+        <span>Vendedor C</span>
+      </div>
+      <p>Publicidade circulando entre vitrines</p>
+    </div>
+  </section>
+
+  <section class="section how-section" id="sobre">
+    <div class="section-heading centered">
+      <span class="tag">SIMPLES ASSIM</span>
+      <h2>Comece em quatro passos</h2>
+      <p>Uma estrutura simples para divulgar seus produtos.</p>
+    </div>
+    <div class="steps">
+      <article><span>01</span><h3>Cadastre-se</h3><p>Crie sua conta na plataforma.</p></article>
+      <article><span>02</span><h3>Monte sua vitrine</h3><p>Adicione fotos, preços e links.</p></article>
+      <article><span>03</span><h3>Entre na rede</h3><p>Participe da divulgação compartilhada.</p></article>
+      <article><span>04</span><h3>Acompanhe</h3><p>Veja visualizações e cliques.</p></article>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Seu negócio pode ir mais longe.</h2>
+    <p>Entre para uma rede de vitrines digitais e amplie suas oportunidades.</p>
+    <button class="btn-light" onclick="cadastrar()">Criar minha vitrine agora →</button>
+  </section>
+</main>
+
+<footer>
+  <a href="#" class="logo">Vitrine<span>Network</span></a>
+  <p>Uma rede de vitrines, muitas oportunidades.</p>
+  <small>© 2026 Vitrine Network — Protótipo demonstrativo.</small>
+</footer>
+
+<div id="notice" class="notice"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
