@@ -271,19 +271,10 @@ export default {
 
         
 } catch (error) {
-  console.error("ERRO AO CADASTRAR VENDEDOR:", error);
-
-  if (String(error.message).toLowerCase().includes("unique")) {
-    return json({
-      error: "Este e-mail já está cadastrado."
-    }, 409);
-  }
-
   return json({
-    error: "Falha ao criar vendedor ou sessão. Consulte os logs do Worker."
+    error: "Erro interno. Tente novamente."
   }, 500);
 }
-
 
       
     }
