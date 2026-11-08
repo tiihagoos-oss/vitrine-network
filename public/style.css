@@ -716,3 +716,136 @@ footer small {
     font-size: 27px;
   }
 }
+
+
+/* Cadastro e login */
+
+.auth-page {
+  min-height: 100vh;
+  background: #f5f4fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px;
+}
+
+.auth-card {
+  background: white;
+  width: 100%;
+  max-width: 440px;
+  padding: 38px;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px #17172b12;
+}
+
+.auth-card .logo {
+  display: inline-block;
+  margin-bottom: 30px;
+}
+
+.auth-card h1 {
+  font-size: 27px;
+  margin: 15px 0 10px;
+  letter-spacing: -1px;
+}
+
+.auth-card > p {
+  color: #77788b;
+  font-size: 13px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+.auth-card form label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 17px 0 7px;
+}
+
+.auth-card input {
+  width: 100%;
+  border: 1px solid #e3e2ed;
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.auth-card input:focus {
+  border-color: #5544df;
+  box-shadow: 0 0 0 3px #5544df18;
+}
+
+.auth-button {
+  width: 100%;
+  margin-top: 23px;
+  padding: 15px;
+}
+
+.auth-button:disabled {
+  opacity: .6;
+  cursor: wait;
+}
+
+.auth-message {
+  font-size: 12px;
+  margin-top: 15px;
+  line-height: 1.5;
+}
+
+.auth-footer {
+  margin-top: 25px !important;
+  text-align: center;
+}
+
+.auth-footer a {
+  color: #5544df;
+  font-weight: 700;
+}
+
+.seller-info {
+  background: #f4f2ff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 22px 0;
+}
+
+.seller-info strong,
+.seller-info span {
+  display: block;
+}
+
+.seller-info span {
+  color: #77788b;
+  font-size: 12px;
+  margin-top: 7px;
+}
+
+.dashboard-options {
+  display: grid;
+  gap: 12px;
+}
+
+.dashboard-options div {
+  padding: 16px;
+  border: 1px solid #e9e8f1;
+  border-radius: 9px;
+}
+
+.dashboard-options strong {
+  font-size: 13px;
+}
+
+.dashboard-options p {
+  color: #77788b;
+  font-size: 11px;
+  margin-top: 7px;
+}
+
+@media(max-width: 480px) {
+  .auth-card {
+    padding: 25px;
+  }
+}
+
