@@ -484,10 +484,10 @@ export default {
       request.method === "GET" &&
       /^\/vitrine\/[a-z0-9-]+\/?$/.test(url.pathname)
     ) {
-      const assetUrl = new URL("/vitrine.html", url);
+     const assetUrl = new URL("/vitrine", url);
 
       return env.ASSETS.fetch(
-        new Request(assetUrl, request)
+       new Request(assetUrl, request)
       );
     }
 
