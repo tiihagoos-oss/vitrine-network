@@ -366,8 +366,8 @@ profileForm.addEventListener("submit", async event => {
   profileMessage.textContent = "";
 
   try {
-    const data = await requisicao("/api/profile", {
-      method: "POST",
+   await requisicao("/api/profile", {
+  method: "PUT",
       body: JSON.stringify({
         nome_exibicao: document.getElementById("nomeExibicao").value,
         bio: document.getElementById("bioPerfil").value,
