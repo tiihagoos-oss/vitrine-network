@@ -459,10 +459,12 @@ const token = await createSession(env, vendedorId);
   return json({ error: "Rota não encontrada." }, 404);
 }
 
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
+    // API
     if (url.pathname.startsWith("/api/")) {
       try {
         return await handleAPI(request, env);
@@ -475,6 +477,18 @@ export default {
           detalhe: String(error.message || error)
         }, 500);
       }
+    }
+
+    // ROTAS PUBLICAS DAS VITRINES
+    if (
+      request.method === "GET" &&
+      /^\/vitrine\/[a-z0-9-]+\/?$/.test(url.pathname)
+    ) {
+      const assetUrl = new URL("/vitrine.html", url);
+
+      return env.ASSETS.fetch(
+        new Request(assetUrl, request)
+      );
     }
 
     return env.ASSETS.fetch(request);
