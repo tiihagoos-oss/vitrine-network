@@ -350,8 +350,8 @@ async function preencherFormularioPerfil() {
 }
 
 
-editProfileButton.addEventListener("click", () => {
-  preencherFormularioPerfil(perfilAtual);
+editProfileButton.addEventListener("click", async () => {
+  await preencherFormularioPerfil();
 
   editProfileForm.hidden = false;
 
