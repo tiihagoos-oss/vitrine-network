@@ -412,6 +412,46 @@ const token = await createSession(env, vendedorId);
   }
 
 
+
+
+  // CONSULTAR VITRINE PUBLICA DE UM VENDEDOR
+  if (method === "GET" && /^\/api\/vitrine\/[a-z0-9-]+$/.test(path)) {
+
+    const slug = path.split("/").pop();
+
+    const vendedor = await env.DB.prepare(`
+      SELECT id, nome, slug
+      FROM vendedores
+      WHERE slug = ?
+        AND ativo = 1
+      LIMIT 1
+    `).bind(slug).first();
+
+    if (!vendedor) {
+      return json({
+        error: "Vitrine não encontrada."
+      }, 404);
+    }
+
+    const result = await env.DB.prepare(`
+      SELECT id, nome, descricao, imagem_url, link_url
+      FROM produtos
+      WHERE vendedor_id = ?
+        AND ativo = 1
+      ORDER BY id DESC
+    `).bind(vendedor.id).all();
+
+    return json({
+      sucesso: true,
+      vendedor: {
+        nome: vendedor.nome,
+        slug: vendedor.slug
+      },
+      produtos: result.results
+    });
+  }
+
+
   
   
 
