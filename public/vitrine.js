@@ -1,8 +1,6 @@
 
-const productForm = document.getElementById("productForm");
 const productsList = document.getElementById("productsList");
 const productCount = document.getElementById("productCount");
-const mensagemProduto = document.getElementById("mensagemProduto");
 
 const publicVitrineLink = document.getElementById("publicVitrineLink");
 const copyVitrineLink = document.getElementById("copyVitrineLink");
@@ -35,12 +33,7 @@ async function requisicao(url, options = {}) {
   return data;
 }
 
-function mensagem(texto, erro = false) {
-  mensagemProduto.textContent = texto;
-  mensagemProduto.style.color = erro ? "#c0392b" : "#168451";
-}
-
-// CARREGAR DADOS DO VENDEDOR E SEU LINK PUBLICO
+// CARREGAR VENDEDOR
 async function carregarVendedor() {
   const response = await fetch("/api/me", {
     credentials: "same-origin",
@@ -64,8 +57,10 @@ async function carregarVendedor() {
 
   if (!vendedor.slug) {
     publicVitrineLink.value = "";
+
     vitrineLinkMessage.textContent =
       "Seu endereço público ainda não foi criado.";
+
     return;
   }
 
@@ -110,7 +105,7 @@ copyVitrineLink.addEventListener("click", async () => {
   }
 });
 
-// ABRIR VITRINE PUBLICA
+// VISUALIZAR VITRINE
 openVitrineLink.addEventListener("click", () => {
   if (!enderecoVitrine) return;
 
@@ -121,21 +116,27 @@ openVitrineLink.addEventListener("click", () => {
   );
 });
 
+// CRIAR ELEMENTOS DE TEXTO
 function criarElemento(tag, texto, classe) {
   const elemento = document.createElement(tag);
+
   elemento.textContent = texto;
 
-  if (classe) elemento.className = classe;
+  if (classe) {
+    elemento.className = classe;
+  }
 
   return elemento;
 }
 
+// MONTAR CARTÃO DO PRODUTO
 function montarProduto(produto) {
   const card = document.createElement("article");
   card.className = "product-card";
 
   if (produto.imagem_url) {
     const imagem = document.createElement("img");
+
     imagem.src = produto.imagem_url;
     imagem.alt = produto.nome;
     imagem.loading = "lazy";
@@ -156,6 +157,7 @@ function montarProduto(produto) {
   }
 
   const link = document.createElement("a");
+
   link.href = produto.link_url;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -164,7 +166,9 @@ function montarProduto(produto) {
 
   card.appendChild(link);
 
+  // EXCLUIR PRODUTO
   const excluir = document.createElement("button");
+
   excluir.type = "button";
   excluir.textContent = "Excluir produto";
   excluir.className = "delete-product";
@@ -194,6 +198,7 @@ function montarProduto(produto) {
   return card;
 }
 
+// CARREGAR PRODUTOS DO VENDEDOR
 async function carregarProdutos() {
   try {
     productsList.textContent = "Carregando produtos...";
@@ -207,52 +212,21 @@ async function carregarProdutos() {
 
     if (data.produtos.length === 0) {
       productsList.textContent =
-        "Você ainda não cadastrou produtos.";
+        "Você ainda não cadastrou produtos. Clique em Adicionar produto para começar.";
+
       return;
     }
 
     data.produtos.forEach(produto => {
-      productsList.appendChild(montarProduto(produto));
+      productsList.appendChild(
+        montarProduto(produto)
+      );
     });
 
   } catch (error) {
     productsList.textContent = error.message;
   }
 }
-
-// CADASTRAR PRODUTO
-productForm.addEventListener("submit", async event => {
-  event.preventDefault();
-
-  const button = productForm.querySelector("button");
-  button.disabled = true;
-  button.textContent = "Salvando...";
-
-  try {
-    await requisicao("/api/products", {
-      method: "POST",
-      body: JSON.stringify({
-        nome: document.getElementById("nomeProduto").value,
-        descricao: document.getElementById("descricaoProduto").value,
-        imagem_url: document.getElementById("imagemProduto").value,
-        link_url: document.getElementById("linkProduto").value
-      })
-    });
-
-    mensagem("Produto cadastrado com sucesso!");
-
-    productForm.reset();
-
-    await carregarProdutos();
-
-  } catch (error) {
-    mensagem(error.message, true);
-
-  } finally {
-    button.disabled = false;
-    button.textContent = "Cadastrar produto";
-  }
-});
 
 // INICIAR PAINEL
 async function iniciarVitrine() {
