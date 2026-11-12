@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Minha Vitrine | Vitrine Network</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body class="auth-page">
 
@@ -23,6 +23,47 @@
       <h1>Minha Vitrine</h1>
       <p>Gerencie seus produtos e links de divulgação.</p>
       <h3 id="sellerName">Carregando vendedor...</h3>
+    </section>
+
+    <!-- LINK PUBLICO DA VITRINE -->
+    <section class="public-link-section">
+      <span class="tag">SUA VITRINE NA INTERNET</span>
+      <h2>Compartilhe sua vitrine</h2>
+      <p>
+        Divulgue seu endereço e permita que qualquer pessoa
+        conheça seus produtos.
+      </p>
+
+      <div class="public-link-box">
+        <input
+          type="text"
+          id="publicVitrineLink"
+          readonly
+          placeholder="Carregando seu endereço..."
+        >
+
+        <div class="public-link-actions">
+          <button
+            type="button"
+            id="copyVitrineLink"
+            class="btn-primary"
+            disabled
+          >
+            Copiar link
+          </button>
+
+          <button
+            type="button"
+            id="openVitrineLink"
+            class="btn-secondary"
+            disabled
+          >
+            Visualizar vitrine
+          </button>
+        </div>
+
+        <p id="vitrineLinkMessage" role="status"></p>
+      </div>
     </section>
 
     <section class="product-form-section">
@@ -90,8 +131,8 @@
       <span class="tag">REDE DE VENDEDORES</span>
       <h2>Publicidade compartilhada</h2>
       <p>
-        Em breve, produtos de outros vendedores poderão
-        aparecer neste espaço da sua vitrine.
+        Produtos de outros vendedores poderão aparecer
+        neste espaço da sua vitrine.
       </p>
       <div class="advertising-placeholder">
         Espaço reservado para publicidade da rede
@@ -100,9 +141,8 @@
 
   </main>
 
-  <script src="auth.js"></script>
-  <script src="vitrine.js"></script>
+  <script src="/auth.js"></script>
+  <script src="/vitrine.js"></script>
 
 </body>
 </html>
-
