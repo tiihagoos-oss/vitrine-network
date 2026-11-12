@@ -10,141 +10,153 @@
 
 <body class="auth-page">
 
-  <main class="vitrine-dashboard">
+<main class="vitrine-dashboard">
 
-    <header class="vitrine-header">
-      <a href="/" class="logo">Vitrine<span>Network</span></a>
+  <header class="vitrine-header">
+    <a href="/" class="logo">Vitrine<span>Network</span></a>
+    <button id="logoutButton" class="btn-secondary">Sair</button>
+  </header>
 
-      <button id="logoutButton" class="btn-secondary">
-        Sair
-      </button>
-    </header>
+  <!-- PERFIL SOCIAL -->
+  <section class="social-profile">
 
-    <!-- PERFIL DO VENDEDOR -->
-    <section class="vitrine-welcome">
-      <span class="tag">MINHA REDE</span>
+    <div class="profile-cover">
+      <span class="cover-label">VITRINE NETWORK</span>
+    </div>
 
-      <h1>Minha Vitrine</h1>
+    <div class="profile-content">
 
-      <p>
-        Sua página de produtos e divulgação.
-      </p>
-
-      <h3 id="sellerName">Carregando vendedor...</h3>
-    </section>
-
-    <!-- ENDEREÇO DA VITRINE -->
-    <section class="public-link-section">
-
-      <span class="tag">SUA VITRINE PÚBLICA</span>
-
-      <h2>Compartilhe seu perfil</h2>
-
-      <p>
-        Divulgue seu endereço e apresente seus produtos
-        para pessoas de qualquer lugar.
-      </p>
-
-      <div class="public-link-box">
-
-        <input
-          type="text"
-          id="publicVitrineLink"
-          readonly
-          placeholder="Carregando seu endereço..."
-        >
-
-        <div class="public-link-actions">
-
-          <button
-            type="button"
-            id="copyVitrineLink"
-            class="btn-primary"
-            disabled
-          >
-            Copiar link
-          </button>
-
-          <button
-            type="button"
-            id="openVitrineLink"
-            class="btn-secondary"
-            disabled
-          >
-            Visualizar vitrine
-          </button>
-
-        </div>
-
-        <p id="vitrineLinkMessage" role="status"></p>
-
-      </div>
-    </section>
-
-    <!-- AÇÕES DO VENDEDOR -->
-    <section class="my-products-section">
-
-      <div class="products-heading">
-
-        <div>
-          <span class="tag">SEU CATÁLOGO</span>
-          <h2>Meus produtos</h2>
-          <p>
-            Gerencie os produtos publicados na sua vitrine.
-          </p>
-        </div>
-
-        <span id="productCount">0 produtos</span>
-
+      <div class="profile-avatar">
+        VN
       </div>
 
-      <div class="add-product-action">
+      <div class="profile-information">
+        <span class="tag">PERFIL DO VENDEDOR</span>
+        <h1 id="sellerName">Carregando vendedor...</h1>
+        <p>
+          Bem-vindo à minha vitrine! Aqui você encontra
+          produtos e ofertas selecionadas.
+        </p>
+        <span class="profile-network">
+          <span class="online-dot"></span>
+          Participante da Vitrine Network
+        </span>
+      </div>
 
-        <div>
-          <h3>Quer divulgar um novo produto?</h3>
-          <p>
-            Adicione produtos de lojas e plataformas externas.
-          </p>
-        </div>
+    </div>
 
-        <a
-          href="/adicionar-produto.html"
+  </section>
+
+  <!-- LINK PUBLICO -->
+  <section class="public-link-section">
+
+    <div class="section-title-social">
+      <div>
+        <span class="tag">SEU PERFIL PÚBLICO</span>
+        <h2>Compartilhe sua vitrine</h2>
+        <p>Seu endereço exclusivo para divulgar seus produtos.</p>
+      </div>
+      <span class="share-icon">↗</span>
+    </div>
+
+    <div class="public-link-box">
+
+      <input
+        type="text"
+        id="publicVitrineLink"
+        readonly
+        placeholder="Carregando seu endereço..."
+      >
+
+      <div class="public-link-actions">
+
+        <button
+          type="button"
+          id="copyVitrineLink"
           class="btn-primary"
-          id="addProductButton"
+          disabled
         >
-          + Adicionar produto
-        </a>
+          Copiar link
+        </button>
+
+        <button
+          type="button"
+          id="openVitrineLink"
+          class="btn-secondary"
+          disabled
+        >
+          Visualizar vitrine
+        </button>
 
       </div>
 
-      <div id="productsList" class="products-list">
-        Carregando produtos...
+      <p id="vitrineLinkMessage" role="status"></p>
+
+    </div>
+
+  </section>
+
+  <!-- PRODUTOS -->
+  <section class="my-products-section">
+
+    <div class="products-heading">
+
+      <div>
+        <span class="tag">MINHA COLEÇÃO</span>
+        <h2>Meus produtos</h2>
+        <p>Produtos publicados no meu perfil.</p>
       </div>
 
-    </section>
+      <span id="productCount">0 produtos</span>
 
-    <!-- PUBLICIDADE COMPARTILHADA -->
-    <section class="advertising-section">
+    </div>
 
-      <span class="tag">REDE DE VENDEDORES</span>
+    <div class="add-product-action">
 
-      <h2>Publicidade compartilhada</h2>
-
-      <p>
-        Produtos de outros vendedores poderão aparecer
-        na sua vitrine pública, ampliando a divulgação da rede.
-      </p>
-
-      <div class="advertising-placeholder">
-        Espaço reservado para publicidade da rede
+      <div>
+        <h3>Compartilhe uma novidade!</h3>
+        <p>Adicione um novo produto à sua vitrine.</p>
       </div>
 
-    </section>
+      <a
+        href="/adicionar-produto.html"
+        class="btn-primary"
+        id="addProductButton"
+      >
+        + Adicionar produto
+      </a>
 
-  </main>
+    </div>
 
-  <script src="/auth.js"></script>
-  <script src="/vitrine.js"></script>
+    <div id="productsList" class="products-list">
+      Carregando produtos...
+    </div>
+
+  </section>
+
+  <!-- REDE -->
+  <section class="advertising-section">
+
+    <span class="tag">REDE DE VENDEDORES</span>
+    <h2>Descubra outros vendedores</h2>
+
+    <p>
+      Em breve, sua vitrine também poderá apresentar
+      produtos de outros participantes da rede.
+    </p>
+
+    <div class="advertising-placeholder">
+      <span class="network-placeholder-icon">✦</span>
+      <strong>Publicidade compartilhada</strong>
+      <p>Mais vitrines, mais oportunidades.</p>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="/auth.js"></script>
+<script src="/vitrine.js"></script>
 
 </body>
 </html>
