@@ -268,6 +268,114 @@ const token = await createSession(env, vendedorId);
     return json({ autenticado: true, vendedor: user });
   }
 
+
+  
+// CONSULTAR PERFIL DO VENDEDOR
+if (method === "GET" && path === "/api/profile") {
+  const user = await currentUser(request, env);
+
+  if (!user) {
+    return json({ error: "Faça login para continuar." }, 401);
+  }
+
+  const perfil = await env.DB.prepare(`
+    SELECT nome, nome_exibicao, foto_perfil, foto_capa, bio, slug
+    FROM vendedores
+    WHERE id = ?
+    LIMIT 1
+  `).bind(user.id).first();
+
+  return json({
+    sucesso: true,
+    perfil: {
+      ...perfil,
+      nome_exibicao: perfil.nome_exibicao || perfil.nome
+    }
+  });
+}
+
+// ATUALIZAR PERFIL DO VENDEDOR
+if (method === "PUT" && path === "/api/profile") {
+
+  const origin = request.headers.get("Origin");
+
+  if (origin && origin !== url.origin) {
+    return json({ error: "Origem não permitida." }, 403);
+  }
+
+  const user = await currentUser(request, env);
+
+  if (!user) {
+    return json({ error: "Faça login para continuar." }, 401);
+  }
+
+  let data;
+
+  try {
+    data = await request.json();
+  } catch {
+    return json({ error: "Dados inválidos." }, 400);
+  }
+
+  const nomeExibicao = String(data.nome_exibicao || "").trim();
+  const bio = String(data.bio || "").trim();
+  const fotoPerfil = String(data.foto_perfil || "").trim();
+  const fotoCapa = String(data.foto_capa || "").trim();
+
+  if (nomeExibicao.length < 2 || nomeExibicao.length > 100) {
+    return json({ error: "O nome deve ter entre 2 e 100 caracteres." }, 400);
+  }
+
+  if (bio.length > 300) {
+    return json({ error: "A apresentação deve ter até 300 caracteres." }, 400);
+  }
+
+  if (fotoPerfil.length > 2048 || fotoCapa.length > 2048) {
+    return json({ error: "O endereço da imagem é muito longo." }, 400);
+  }
+
+  function imagemValida(valor) {
+    if (!valor) return true;
+
+    try {
+      return new URL(valor).protocol === "https:";
+    } catch {
+      return false;
+    }
+  }
+
+  if (!imagemValida(fotoPerfil) || !imagemValida(fotoCapa)) {
+    return json({
+      error: "As imagens devem possuir endereços HTTPS válidos."
+    }, 400);
+  }
+
+  await env.DB.prepare(`
+    UPDATE vendedores
+    SET nome_exibicao = ?,
+        foto_perfil = ?,
+        foto_capa = ?,
+        bio = ?
+    WHERE id = ?
+  `).bind(
+    nomeExibicao,
+    fotoPerfil || null,
+    fotoCapa || null,
+    bio || null,
+    user.id
+  ).run();
+
+  return json({
+    sucesso: true,
+    mensagem: "Perfil atualizado com sucesso!"
+  });
+}
+
+
+
+
+  
+
   if (method === "POST" && path === "/api/logout") {
     const token = getCookie(request, "vn_session");
 
