@@ -3,7 +3,7 @@ const myProducts = document.getElementById("myProducts");
 const partnerProducts = document.getElementById("partnerProducts");
 const sellerName = document.getElementById("sellerName");
 
-// GERAR INICIAIS DO VENDEDOR
+// INICIAIS DO VENDEDOR
 function gerarIniciais(nome) {
   return String(nome || "Vendedor")
     .trim()
@@ -13,7 +13,46 @@ function gerarIniciais(nome) {
     .join("");
 }
 
-// MONTAR CARTAO DO PRODUTO
+// CARREGAR PERFIL
+function carregarPerfil(vendedor) {
+  const nome = vendedor.nome_exibicao || vendedor.nome;
+  const avatar = document.getElementById("profileAvatar");
+  const capa = document.getElementById("profileCover");
+  const bio = document.getElementById("sellerBio");
+
+  sellerName.textContent = nome;
+
+  bio.textContent = vendedor.bio ||
+    "Confira meus produtos e ofertas!";
+
+  // FOTO DE PERFIL
+  if (vendedor.foto_perfil) {
+    avatar.replaceChildren();
+
+    const imagem = document.createElement("img");
+    imagem.src = vendedor.foto_perfil;
+    imagem.alt = `Foto de ${nome}`;
+    imagem.onerror = () => {
+      avatar.textContent = gerarIniciais(nome);
+    };
+
+    avatar.appendChild(imagem);
+  } else {
+    avatar.textContent = gerarIniciais(nome);
+  }
+
+  // FOTO DE CAPA
+  if (vendedor.foto_capa) {
+    capa.style.backgroundImage =
+      `url("${vendedor.foto_capa.replace(/["\\]/g, "")}")`;
+
+    capa.classList.add("has-cover");
+  }
+
+  document.title = `${nome} | Vitrine Network`;
+}
+
+// MONTAR CARTÃO DO PRODUTO
 function criarCard(produto, parceiro = false) {
   const card = document.createElement("article");
   card.className = "public-card";
@@ -21,7 +60,9 @@ function criarCard(produto, parceiro = false) {
   if (parceiro) {
     const label = document.createElement("span");
     label.className = "partner-label";
-    label.textContent = `PARCEIRO: ${produto.vendedor_nome || "Vendedor"}`;
+    label.textContent =
+      `PARCEIRO: ${produto.vendedor_nome || "Vendedor"}`;
+
     card.appendChild(label);
   }
 
@@ -48,7 +89,6 @@ function criarCard(produto, parceiro = false) {
   }
 
   const link = document.createElement("a");
-
   link.href = produto.link_url;
   link.target = "_blank";
   link.rel = "noopener noreferrer";
@@ -59,7 +99,7 @@ function criarCard(produto, parceiro = false) {
   return card;
 }
 
-// CARREGAR VITRINE PUBLICA
+// CARREGAR VITRINE PÚBLICA
 async function carregarVitrine() {
   try {
     const slug = window.location.pathname
@@ -82,18 +122,8 @@ async function carregarVitrine() {
       throw new Error(data.error || "Vitrine não encontrada.");
     }
 
-    // DADOS DO VENDEDOR
-    const nomeVendedor = data.vendedor.nome;
-
-    sellerName.textContent = nomeVendedor;
-
-    // AVATAR COM INICIAIS
-    const avatar = document.querySelector(".public-social-profile .profile-avatar");
-
-    if (avatar) {
-      avatar.textContent = gerarIniciais(nomeVendedor);
-      avatar.setAttribute("aria-label", `Perfil de ${nomeVendedor}`);
-    }
+    // PERFIL DO VENDEDOR
+    carregarPerfil(data.vendedor);
 
     // PRODUTOS
     const produtos = Array.isArray(data.produtos)
@@ -121,20 +151,16 @@ async function carregarVitrine() {
         "Ainda não há produtos de parceiros.";
     } else {
       parceiros.forEach(produto => {
-        partnerProducts.appendChild(criarCard(produto, true));
+        partnerProducts.appendChild(
+          criarCard(produto, true)
+        );
       });
     }
 
-    // TITULO DA PAGINA
-    document.title =
-      `${nomeVendedor} | Vitrine Network`;
-
   } catch (error) {
-
     document.querySelector("main").innerHTML = "";
 
     const mensagem = document.createElement("h2");
-
     mensagem.textContent = error.message;
     mensagem.className = "error-message";
 
