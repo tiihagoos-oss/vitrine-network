@@ -528,13 +528,20 @@ if (method === "PUT" && path === "/api/profile") {
 
     const slug = path.split("/").pop();
 
-    const vendedor = await env.DB.prepare(`
-      SELECT id, nome, slug
-      FROM vendedores
-      WHERE slug = ?
-        AND ativo = 1
-      LIMIT 1
-    `).bind(slug).first();
+   const vendedor = await env.DB.prepare(`
+  SELECT
+    id,
+    nome,
+    slug,
+    nome_exibicao,
+    foto_perfil,
+    foto_capa,
+    bio
+  FROM vendedores
+  WHERE slug = ?
+    AND ativo = 1
+  LIMIT 1
+`).bind(slug).first();
 
     if (!vendedor) {
       return json({
