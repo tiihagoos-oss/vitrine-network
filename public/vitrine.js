@@ -4,6 +4,13 @@ const productsList = document.getElementById("productsList");
 const productCount = document.getElementById("productCount");
 const mensagemProduto = document.getElementById("mensagemProduto");
 
+const publicVitrineLink = document.getElementById("publicVitrineLink");
+const copyVitrineLink = document.getElementById("copyVitrineLink");
+const openVitrineLink = document.getElementById("openVitrineLink");
+const vitrineLinkMessage = document.getElementById("vitrineLinkMessage");
+
+let enderecoVitrine = "";
+
 async function requisicao(url, options = {}) {
   const response = await fetch(url, {
     credentials: "same-origin",
@@ -33,9 +40,11 @@ function mensagem(texto, erro = false) {
   mensagemProduto.style.color = erro ? "#c0392b" : "#168451";
 }
 
+// CARREGAR DADOS DO VENDEDOR E SEU LINK PUBLICO
 async function carregarVendedor() {
   const response = await fetch("/api/me", {
-    credentials: "same-origin"
+    credentials: "same-origin",
+    cache: "no-store"
   });
 
   if (response.status === 401) {
@@ -48,15 +57,76 @@ async function carregarVendedor() {
   }
 
   const data = await response.json();
+  const vendedor = data.vendedor;
 
   document.getElementById("sellerName").textContent =
-    data.vendedor.nome;
+    vendedor.nome;
+
+  if (!vendedor.slug) {
+    publicVitrineLink.value = "";
+    vitrineLinkMessage.textContent =
+      "Seu endereço público ainda não foi criado.";
+    return;
+  }
+
+  enderecoVitrine =
+    `${window.location.origin}/vitrine/${encodeURIComponent(vendedor.slug)}`;
+
+  publicVitrineLink.value = enderecoVitrine;
+
+  copyVitrineLink.disabled = false;
+  openVitrineLink.disabled = false;
+
+  vitrineLinkMessage.textContent =
+    "Sua vitrine está pronta para ser compartilhada!";
 }
+
+// COPIAR LINK
+copyVitrineLink.addEventListener("click", async () => {
+  if (!enderecoVitrine) return;
+
+  try {
+    await navigator.clipboard.writeText(enderecoVitrine);
+
+    vitrineLinkMessage.textContent =
+      "Link copiado! Compartilhe sua vitrine.";
+
+    vitrineLinkMessage.style.color = "#168451";
+
+    copyVitrineLink.textContent = "Link copiado!";
+
+    setTimeout(() => {
+      copyVitrineLink.textContent = "Copiar link";
+    }, 2000);
+
+  } catch (error) {
+    publicVitrineLink.select();
+
+    const copiou = document.execCommand("copy");
+
+    vitrineLinkMessage.textContent = copiou
+      ? "Link copiado com sucesso!"
+      : "Selecione e copie o endereço manualmente.";
+  }
+});
+
+// ABRIR VITRINE PUBLICA
+openVitrineLink.addEventListener("click", () => {
+  if (!enderecoVitrine) return;
+
+  window.open(
+    enderecoVitrine,
+    "_blank",
+    "noopener,noreferrer"
+  );
+});
 
 function criarElemento(tag, texto, classe) {
   const elemento = document.createElement(tag);
   elemento.textContent = texto;
+
   if (classe) elemento.className = classe;
+
   return elemento;
 }
 
@@ -71,6 +141,7 @@ function montarProduto(produto) {
     imagem.loading = "lazy";
     imagem.referrerPolicy = "no-referrer";
     imagem.onerror = () => imagem.remove();
+
     card.appendChild(imagem);
   }
 
@@ -111,6 +182,7 @@ function montarProduto(produto) {
       });
 
       await carregarProdutos();
+
     } catch (error) {
       alert(error.message);
       excluir.disabled = false;
@@ -148,6 +220,7 @@ async function carregarProdutos() {
   }
 }
 
+// CADASTRAR PRODUTO
 productForm.addEventListener("submit", async event => {
   event.preventDefault();
 
@@ -167,26 +240,29 @@ productForm.addEventListener("submit", async event => {
     });
 
     mensagem("Produto cadastrado com sucesso!");
+
     productForm.reset();
 
     await carregarProdutos();
 
   } catch (error) {
     mensagem(error.message, true);
+
   } finally {
     button.disabled = false;
     button.textContent = "Cadastrar produto";
   }
 });
 
+// INICIAR PAINEL
 async function iniciarVitrine() {
   try {
     await carregarVendedor();
     await carregarProdutos();
+
   } catch (error) {
     productsList.textContent = error.message;
   }
 }
 
 iniciarVitrine();
-
