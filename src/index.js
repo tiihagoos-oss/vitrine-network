@@ -90,7 +90,15 @@ async function currentUser(request, env) {
   const now = Math.floor(Date.now() / 1000);
 
   const result = await env.DB.prepare(`
-   SELECT v.id, v.nome, v.email, v.slug
+  SELECT
+  v.id,
+  v.nome,
+  v.email,
+  v.slug,
+  v.nome_exibicao,
+  v.foto_perfil,
+  v.foto_capa,
+  v.bio
    FROM sessoes s
     JOIN vendedores v ON v.id = s.vendedor_id
     WHERE s.token_hash = ?
