@@ -323,21 +323,32 @@ const profileMessage = document.getElementById("profileMessage");
 
 let perfilAtual = {};
 
-function preencherFormularioPerfil(vendedor) {
-  perfilAtual = vendedor;
 
-  document.getElementById("nomeExibicao").value =
-    vendedor.nome_exibicao || "";
+async function preencherFormularioPerfil() {
+  try {
+    const data = await requisicao("/api/profile");
+    const perfil = data.perfil;
 
-  document.getElementById("bioPerfil").value =
-    vendedor.bio || "";
+    perfilAtual = perfil;
 
-  document.getElementById("fotoPerfil").value =
-    vendedor.foto_perfil || "";
+    document.getElementById("nomeExibicao").value =
+      perfil.nome_exibicao || "";
 
-  document.getElementById("fotoCapa").value =
-    vendedor.foto_capa || "";
+    document.getElementById("bioPerfil").value =
+      perfil.bio || "";
+
+    document.getElementById("fotoPerfil").value =
+      perfil.foto_perfil || "";
+
+    document.getElementById("fotoCapa").value =
+      perfil.foto_capa || "";
+
+  } catch (error) {
+    profileMessage.style.color = "#c0392b";
+    profileMessage.textContent = error.message;
+  }
 }
+
 
 editProfileButton.addEventListener("click", () => {
   preencherFormularioPerfil(perfilAtual);
