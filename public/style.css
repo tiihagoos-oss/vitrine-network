@@ -1781,3 +1781,60 @@ body.auth-page {
     min-width: 95px;
   }
 }
+
+
+
+/* AJUSTE DO PERFIL PUBLICO */
+
+.public-social-profile .profile-cover {
+  height: 200px;
+  border-radius: 16px 16px 0 0;
+}
+
+.public-social-profile .profile-content {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 22px 30px 28px;
+}
+
+.public-social-profile .profile-avatar {
+  width: 120px;
+  height: 120px;
+  min-width: 120px;
+  margin-top: 0;
+  border: 4px solid white;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+}
+
+.public-social-profile .profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.public-social-profile .profile-information {
+  padding-top: 0;
+}
+
+@media (max-width: 600px) {
+  .public-social-profile .profile-cover {
+    height: 150px;
+  }
+
+  .public-social-profile .profile-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .public-social-profile .profile-avatar {
+    width: 105px;
+    height: 105px;
+    min-width: 105px;
+  }
+}
+
