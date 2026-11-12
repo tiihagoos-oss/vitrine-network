@@ -52,8 +52,59 @@ async function carregarVendedor() {
   const data = await response.json();
   const vendedor = data.vendedor;
 
+
+
   document.getElementById("sellerName").textContent =
-    vendedor.nome;
+  vendedor.nome_exibicao || vendedor.nome;
+
+perfilAtual = vendedor;
+
+const avatar = document.querySelector(
+  ".social-profile .profile-avatar"
+);
+
+if (avatar) {
+  avatar.replaceChildren();
+
+  if (vendedor.foto_perfil) {
+    const img = document.createElement("img");
+    img.src = vendedor.foto_perfil;
+    img.alt = "Foto do perfil";
+    img.onerror = () => {
+      avatar.textContent = vendedor.nome
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(p => p[0].toUpperCase())
+        .join("");
+    };
+    avatar.appendChild(img);
+  } else {
+    avatar.textContent = vendedor.nome
+      .split(/\s+/)
+      .slice(0, 2)
+      .map(p => p[0].toUpperCase())
+      .join("");
+  }
+}
+
+const capa = document.querySelector(
+  ".social-profile .profile-cover"
+);
+
+if (capa && vendedor.foto_capa) {
+  capa.style.backgroundImage =
+    `url("${vendedor.foto_capa.replace(/["\\]/g, "")}")`;
+}
+
+const bio = document.querySelector(
+  ".social-profile .profile-information p"
+);
+
+if (bio && vendedor.bio) {
+  bio.textContent = vendedor.bio;
+}
+
+  
 
 
   const avatar = document.querySelector(".social-profile .profile-avatar");
