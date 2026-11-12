@@ -7,34 +7,46 @@
   <title>Minha Vitrine | Vitrine Network</title>
   <link rel="stylesheet" href="/style.css">
 </head>
+
 <body class="auth-page">
 
   <main class="vitrine-dashboard">
 
     <header class="vitrine-header">
       <a href="/" class="logo">Vitrine<span>Network</span></a>
+
       <button id="logoutButton" class="btn-secondary">
         Sair
       </button>
     </header>
 
+    <!-- PERFIL DO VENDEDOR -->
     <section class="vitrine-welcome">
-      <span class="tag">ÁREA DO VENDEDOR</span>
+      <span class="tag">MINHA REDE</span>
+
       <h1>Minha Vitrine</h1>
-      <p>Gerencie seus produtos e links de divulgação.</p>
+
+      <p>
+        Sua página de produtos e divulgação.
+      </p>
+
       <h3 id="sellerName">Carregando vendedor...</h3>
     </section>
 
-    <!-- LINK PUBLICO DA VITRINE -->
+    <!-- ENDEREÇO DA VITRINE -->
     <section class="public-link-section">
-      <span class="tag">SUA VITRINE NA INTERNET</span>
-      <h2>Compartilhe sua vitrine</h2>
+
+      <span class="tag">SUA VITRINE PÚBLICA</span>
+
+      <h2>Compartilhe seu perfil</h2>
+
       <p>
-        Divulgue seu endereço e permita que qualquer pessoa
-        conheça seus produtos.
+        Divulgue seu endereço e apresente seus produtos
+        para pessoas de qualquer lugar.
       </p>
 
       <div class="public-link-box">
+
         <input
           type="text"
           id="publicVitrineLink"
@@ -43,6 +55,7 @@
         >
 
         <div class="public-link-actions">
+
           <button
             type="button"
             id="copyVitrineLink"
@@ -60,83 +73,72 @@
           >
             Visualizar vitrine
           </button>
+
         </div>
 
         <p id="vitrineLinkMessage" role="status"></p>
+
       </div>
     </section>
 
-    <section class="product-form-section">
-      <h2>Adicionar produto</h2>
-      <p>Cadastre produtos de lojas e plataformas externas.</p>
-
-      <form id="productForm">
-
-        <label for="nomeProduto">Nome do produto</label>
-        <input
-          id="nomeProduto"
-          type="text"
-          maxlength="120"
-          required
-          placeholder="Ex.: Fone Bluetooth"
-        >
-
-        <label for="descricaoProduto">Descrição</label>
-        <textarea
-          id="descricaoProduto"
-          maxlength="500"
-          rows="3"
-          placeholder="Descreva seu produto..."
-        ></textarea>
-
-        <label for="imagemProduto">Link da imagem (opcional)</label>
-        <input
-          id="imagemProduto"
-          type="url"
-          placeholder="https://site.com/imagem.jpg"
-        >
-
-        <label for="linkProduto">Link de compra ou afiliado</label>
-        <input
-          id="linkProduto"
-          type="url"
-          required
-          placeholder="https://loja.com/produto"
-        >
-
-        <button type="submit" class="btn-primary auth-button">
-          Cadastrar produto
-        </button>
-
-        <div id="mensagemProduto" role="status"></div>
-
-      </form>
-    </section>
-
+    <!-- AÇÕES DO VENDEDOR -->
     <section class="my-products-section">
+
       <div class="products-heading">
+
         <div>
+          <span class="tag">SEU CATÁLOGO</span>
           <h2>Meus produtos</h2>
-          <p>Produtos cadastrados na sua vitrine.</p>
+          <p>
+            Gerencie os produtos publicados na sua vitrine.
+          </p>
         </div>
+
         <span id="productCount">0 produtos</span>
+
+      </div>
+
+      <div class="add-product-action">
+
+        <div>
+          <h3>Quer divulgar um novo produto?</h3>
+          <p>
+            Adicione produtos de lojas e plataformas externas.
+          </p>
+        </div>
+
+        <a
+          href="/adicionar-produto.html"
+          class="btn-primary"
+          id="addProductButton"
+        >
+          + Adicionar produto
+        </a>
+
       </div>
 
       <div id="productsList" class="products-list">
         Carregando produtos...
       </div>
+
     </section>
 
+    <!-- PUBLICIDADE COMPARTILHADA -->
     <section class="advertising-section">
+
       <span class="tag">REDE DE VENDEDORES</span>
+
       <h2>Publicidade compartilhada</h2>
+
       <p>
         Produtos de outros vendedores poderão aparecer
-        neste espaço da sua vitrine.
+        na sua vitrine pública, ampliando a divulgação da rede.
       </p>
+
       <div class="advertising-placeholder">
         Espaço reservado para publicidade da rede
       </div>
+
     </section>
 
   </main>
