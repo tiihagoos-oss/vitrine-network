@@ -257,3 +257,138 @@ async function iniciarVitrine() {
 }
 
 iniciarVitrine();
+
+
+
+// ======================================
+// EDIÇÃO DO PERFIL DO VENDEDOR
+// ======================================
+
+const editProfileButton = document.getElementById("editProfileButton");
+const editProfileForm = document.getElementById("editProfileForm");
+const profileForm = document.getElementById("profileForm");
+const cancelProfileEdit = document.getElementById("cancelProfileEdit");
+const profileMessage = document.getElementById("profileMessage");
+
+let perfilAtual = {};
+
+function preencherFormularioPerfil(vendedor) {
+  perfilAtual = vendedor;
+
+  document.getElementById("nomeExibicao").value =
+    vendedor.nome_exibicao || "";
+
+  document.getElementById("bioPerfil").value =
+    vendedor.bio || "";
+
+  document.getElementById("fotoPerfil").value =
+    vendedor.foto_perfil || "";
+
+  document.getElementById("fotoCapa").value =
+    vendedor.foto_capa || "";
+}
+
+editProfileButton.addEventListener("click", () => {
+  preencherFormularioPerfil(perfilAtual);
+
+  editProfileForm.hidden = false;
+
+  editProfileForm.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+});
+
+cancelProfileEdit.addEventListener("click", () => {
+  editProfileForm.hidden = true;
+  profileMessage.textContent = "";
+});
+
+profileForm.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const button = profileForm.querySelector('button[type="submit"]');
+
+  button.disabled = true;
+  button.textContent = "Salvando...";
+
+  profileMessage.textContent = "";
+
+  try {
+    const data = await requisicao("/api/profile", {
+      method: "POST",
+      body: JSON.stringify({
+        nome_exibicao: document.getElementById("nomeExibicao").value,
+        bio: document.getElementById("bioPerfil").value,
+        foto_perfil: document.getElementById("fotoPerfil").value,
+        foto_capa: document.getElementById("fotoCapa").value
+      })
+    });
+
+    profileMessage.style.color = "#168451";
+    profileMessage.textContent = data.mensagem;
+
+    // ATUALIZAR PERFIL NA TELA
+    const vendedor = await requisicao("/api/me");
+
+    const dados = vendedor.vendedor;
+
+    perfilAtual = dados;
+
+    document.getElementById("sellerName").textContent =
+      dados.nome_exibicao || dados.nome;
+
+    const avatar = document.querySelector(
+      ".social-profile .profile-avatar"
+    );
+
+    if (avatar) {
+      avatar.replaceChildren();
+
+      if (dados.foto_perfil) {
+        const imagem = document.createElement("img");
+        imagem.src = dados.foto_perfil;
+        imagem.alt = dados.nome_exibicao || dados.nome;
+
+        imagem.onerror = () => {
+          avatar.textContent = dados.nome
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map(parte => parte.charAt(0).toUpperCase())
+            .join("");
+        };
+
+        avatar.appendChild(imagem);
+      } else {
+        avatar.textContent = dados.nome
+          .trim()
+          .split(/\s+/)
+          .slice(0, 2)
+          .map(parte => parte.charAt(0).toUpperCase())
+          .join("");
+      }
+    }
+
+    const capa = document.querySelector(".social-profile .profile-cover");
+
+    if (capa) {
+      capa.style.backgroundImage = dados.foto_capa
+        ? `url("${dados.foto_capa.replace(/["\\]/g, "")}")`
+        : "";
+
+      capa.classList.toggle("has-cover", !!dados.foto_capa);
+    }
+
+    editProfileForm.hidden = true;
+
+  } catch (error) {
+    profileMessage.style.color = "#c0392b";
+    profileMessage.textContent = error.message;
+
+  } finally {
+    button.disabled = false;
+    button.textContent = "Salvar alterações";
+  }
+});
+
