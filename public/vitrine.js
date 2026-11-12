@@ -9,6 +9,17 @@ const vitrineLinkMessage = document.getElementById("vitrineLinkMessage");
 
 let enderecoVitrine = "";
 
+
+// ELEMENTOS DE EDICAO DO PERFIL
+const editProfileButton = document.getElementById("editProfileButton");
+const editProfileForm = document.getElementById("editProfileForm");
+const profileForm = document.getElementById("profileForm");
+const cancelProfileEdit = document.getElementById("cancelProfileEdit");
+const profileMessage = document.getElementById("profileMessage");
+
+let perfilAtual = null;
+
+
 async function requisicao(url, options = {}) {
   const response = await fetch(url, {
     credentials: "same-origin",
