@@ -48,6 +48,66 @@
   </section>
 
 
+
+<!-- FORMULARIO DE EDICAO DO PERFIL -->
+<section class="edit-profile-form" id="editProfileForm" hidden>
+
+  <h2>Personalizar meu perfil</h2>
+  <p>Atualize as informações da sua vitrine.</p>
+
+  <form id="profileForm">
+
+    <label for="nomeExibicao">Nome de exibição</label>
+    <input
+      type="text"
+      id="nomeExibicao"
+      maxlength="100"
+      placeholder="Como deseja ser identificado?"
+    >
+
+    <label for="bioPerfil">Sobre você</label>
+    <textarea
+      id="bioPerfil"
+      maxlength="300"
+      rows="3"
+      placeholder="Conte um pouco sobre sua vitrine..."
+    ></textarea>
+
+    <label for="fotoPerfil">Link da foto de perfil</label>
+    <input
+      type="url"
+      id="fotoPerfil"
+      placeholder="https://site.com/foto.jpg"
+    >
+
+    <label for="fotoCapa">Link da foto de capa</label>
+    <input
+      type="url"
+      id="fotoCapa"
+      placeholder="https://site.com/capa.jpg"
+    >
+
+    <div class="profile-form-actions">
+      <button type="submit" class="btn-primary">
+        Salvar alterações
+      </button>
+
+      <button
+        type="button"
+        class="btn-secondary"
+        id="cancelProfileEdit"
+      >
+        Cancelar
+      </button>
+    </div>
+
+    <p id="profileMessage" role="status"></p>
+
+  </form>
+
+</section>
+
+  
   
 <!-- EDITAR PERFIL -->
 <section class="edit-profile-action">
