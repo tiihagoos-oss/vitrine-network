@@ -576,15 +576,19 @@ if (method === "PUT" && path === "/api/profile") {
       LIMIT 8
     `).bind(vendedor.id).all();
 
-    return json({
-      sucesso: true,
-      vendedor: {
-        nome: vendedor.nome,
-        slug: vendedor.slug
-      },
-      produtos: proprios.results,
-      parceiros: parceiros.results
-    });
+ return json({
+  sucesso: true,
+  vendedor: {
+    nome: vendedor.nome,
+    slug: vendedor.slug,
+    nome_exibicao: vendedor.nome_exibicao,
+    foto_perfil: vendedor.foto_perfil,
+    foto_capa: vendedor.foto_capa,
+    bio: vendedor.bio
+  },
+  produtos: proprios.results,
+  parceiros: parceiros.results
+});
   }
 
 
