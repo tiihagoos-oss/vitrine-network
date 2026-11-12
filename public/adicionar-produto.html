@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Adicionar produto | Vitrine Network</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+
+<body class="auth-page">
+
+  <main class="vitrine-dashboard">
+
+    <header class="vitrine-header">
+      <a href="/" class="logo">Vitrine<span>Network</span></a>
+
+      <a href="/minha-vitrine" class="btn-secondary">
+        Voltar à minha vitrine
+      </a>
+    </header>
+
+    <section class="vitrine-welcome">
+      <span class="tag">MINHA VITRINE</span>
+      <h1>Adicionar produto</h1>
+      <p>
+        Cadastre produtos de lojas e plataformas externas.
+      </p>
+      <h3 id="sellerName">Carregando vendedor...</h3>
+    </section>
+
+    <section class="product-form-section">
+
+      <h2>Adicionar produto</h2>
+
+      <p>
+        Preencha as informações abaixo para publicar
+        um novo produto na sua vitrine.
+      </p>
+
+      <form id="productForm">
+
+        <label for="nomeProduto">Nome do produto</label>
+
+        <input
+          id="nomeProduto"
+          type="text"
+          maxlength="120"
+          required
+          placeholder="Ex.: Fone Bluetooth"
+        >
+
+        <label for="descricaoProduto">Descrição</label>
+
+        <textarea
+          id="descricaoProduto"
+          maxlength="500"
+          rows="3"
+          placeholder="Descreva seu produto..."
+        ></textarea>
+
+        <label for="imagemProduto">Link da imagem (opcional)</label>
+
+        <input
+          id="imagemProduto"
+          type="url"
+          placeholder="https://site.com/imagem.jpg"
+        >
+
+        <label for="linkProduto">Link de compra ou afiliado</label>
+
+        <input
+          id="linkProduto"
+          type="url"
+          required
+          placeholder="https://loja.com/produto"
+        >
+
+        <button
+          type="submit"
+          class="btn-primary auth-button"
+          id="saveProductButton"
+        >
+          Cadastrar produto
+        </button>
+
+        <div id="mensagemProduto" role="status"></div>
+
+      </form>
+
+    </section>
+
+  </main>
+
+  <script src="/auth.js"></script>
+  <script src="/adicionar-produto.js"></script>
+
+</body>
+</html>
