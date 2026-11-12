@@ -414,6 +414,7 @@ const token = await createSession(env, vendedorId);
 
 
 
+ 
   // CONSULTAR VITRINE PUBLICA DE UM VENDEDOR
   if (method === "GET" && /^\/api\/vitrine\/[a-z0-9-]+$/.test(path)) {
 
@@ -433,12 +434,31 @@ const token = await createSession(env, vendedorId);
       }, 404);
     }
 
-    const result = await env.DB.prepare(`
+    // PRODUTOS DO PROPRIO VENDEDOR
+    const proprios = await env.DB.prepare(`
       SELECT id, nome, descricao, imagem_url, link_url
       FROM produtos
       WHERE vendedor_id = ?
         AND ativo = 1
       ORDER BY id DESC
+    `).bind(vendedor.id).all();
+
+    // 8 PRODUTOS ALEATORIOS DE OUTROS VENDEDORES
+    const parceiros = await env.DB.prepare(`
+      SELECT
+        p.id,
+        p.nome,
+        p.descricao,
+        p.imagem_url,
+        p.link_url,
+        v.nome AS vendedor_nome
+      FROM produtos p
+      JOIN vendedores v ON v.id = p.vendedor_id
+      WHERE p.vendedor_id != ?
+        AND p.ativo = 1
+        AND v.ativo = 1
+      ORDER BY RANDOM()
+      LIMIT 8
     `).bind(vendedor.id).all();
 
     return json({
@@ -447,7 +467,8 @@ const token = await createSession(env, vendedorId);
         nome: vendedor.nome,
         slug: vendedor.slug
       },
-      produtos: result.results
+      produtos: proprios.results,
+      parceiros: parceiros.results
     });
   }
 
