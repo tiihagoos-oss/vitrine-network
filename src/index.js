@@ -165,8 +165,30 @@ async function handleAPI(request, env) {
         VALUES (?, ?, ?, ?)
       `).bind(nome, email, senhaHash, senhaSalt).run();
 
-      const vendedorId = inserted.meta.last_row_id;
-      const token = await createSession(env, vendedorId);
+
+
+const vendedorId = inserted.meta.last_row_id;
+
+const slugBase = nome
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g, "")
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-|-$/g, "")
+  .slice(0, 50) || "vendedor";
+
+const slug = `${slugBase}-${vendedorId}`;
+
+await env.DB.prepare(`
+  UPDATE vendedores
+  SET slug = ?
+  WHERE id = ?
+`).bind(slug, vendedorId).run();
+
+const token = await createSession(env, vendedorId);
+
+
+      
 
       return json({
         sucesso: true,
