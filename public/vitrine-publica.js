@@ -45,10 +45,11 @@ function carregarPerfil(vendedor) {
 
   // FOTO DE CAPA
   if (vendedor.foto_capa) {
-    capa.style.backgroundImage =
-      `url("${vendedor.foto_capa.replace(/["\\]/g, "")}")`;
+capa.style.backgroundImage = vendedor.foto_capa
+  ? `url("${vendedor.foto_capa.replace(/["\\]/g, "")}")`
+  : "";
 
-    capa.classList.add("has-cover");
+capa.classList.toggle("has-cover", !!vendedor.foto_capa);
   }
 
   document.title = `${nome} | Vitrine Network`;
