@@ -2,6 +2,8 @@
 const productsList = document.getElementById("productsList");
 const productCount = document.getElementById("productCount");
 
+const partnerProducts = document.getElementById("partnerProducts");
+
 const publicVitrineLink = document.getElementById("publicVitrineLink");
 const copyVitrineLink = document.getElementById("copyVitrineLink");
 const openVitrineLink = document.getElementById("openVitrineLink");
