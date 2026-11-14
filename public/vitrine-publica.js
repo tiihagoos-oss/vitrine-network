@@ -122,6 +122,20 @@ if (parceiro) {
 // CARREGAR VITRINE PÚBLICA
 async function carregarVitrine() {
   try {
+
+// VERIFICAR SE O VISITANTE ESTÁ LOGADO
+try {
+  const sessao = await fetch("/api/me", {
+    credentials: "same-origin",
+    cache: "no-store"
+  });
+
+  visitanteLogado = sessao.ok;
+} catch (error) {
+  visitanteLogado = false;
+}
+
+    
     const slug = window.location.pathname
       .split("/")
       .filter(Boolean)
