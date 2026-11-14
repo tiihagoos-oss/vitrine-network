@@ -200,10 +200,37 @@ function criarElemento(tag, texto, classe) {
 }
 
 // MONTAR CARTÃO DO PRODUTO
-function montarProduto(produto) {
+
+function montarProduto(produto, parceiro = false) {
   const card = document.createElement("article");
   card.className = "product-card";
 
+  // IDENTIFICAÇÃO DO VENDEDOR PARCEIRO
+  if (parceiro) {
+    const identificacao = document.createElement("div");
+    identificacao.className = "partner-label";
+
+    identificacao.appendChild(
+      document.createTextNode("PARCEIRO: ")
+    );
+
+    const vendedor = document.createElement("a");
+
+    vendedor.textContent =
+      produto.vendedor_nome_exibicao ||
+      produto.vendedor_nome ||
+      "Vendedor";
+
+    if (produto.vendedor_slug) {
+      vendedor.href =
+        `/vitrine/${encodeURIComponent(produto.vendedor_slug)}`;
+    }
+
+    identificacao.appendChild(vendedor);
+    card.appendChild(identificacao);
+  }
+
+  // IMAGEM
   if (produto.imagem_url) {
     const imagem = document.createElement("img");
 
@@ -216,16 +243,19 @@ function montarProduto(produto) {
     card.appendChild(imagem);
   }
 
+  // NOME
   card.appendChild(
     criarElemento("h3", produto.nome)
   );
 
+  // DESCRIÇÃO
   if (produto.descricao) {
     card.appendChild(
       criarElemento("p", produto.descricao)
     );
   }
 
+  // LINK DO PRODUTO
   const link = document.createElement("a");
 
   link.href = produto.link_url;
@@ -236,37 +266,40 @@ function montarProduto(produto) {
 
   card.appendChild(link);
 
-  // EXCLUIR PRODUTO
-  const excluir = document.createElement("button");
+  // EXCLUIR SOMENTE PRODUTOS PRÓPRIOS
+  if (!parceiro) {
+    const excluir = document.createElement("button");
 
-  excluir.type = "button";
-  excluir.textContent = "Excluir produto";
-  excluir.className = "delete-product";
+    excluir.type = "button";
+    excluir.textContent = "Excluir produto";
+    excluir.className = "delete-product";
 
-  excluir.addEventListener("click", async () => {
-    if (!confirm("Deseja realmente excluir este produto?")) {
-      return;
-    }
+    excluir.addEventListener("click", async () => {
+      if (!confirm("Deseja realmente excluir este produto?")) {
+        return;
+      }
 
-    excluir.disabled = true;
+      excluir.disabled = true;
 
-    try {
-      await requisicao(`/api/products/${produto.id}`, {
-        method: "DELETE"
-      });
+      try {
+        await requisicao(`/api/products/${produto.id}`, {
+          method: "DELETE"
+        });
 
-      await carregarProdutos();
+        await carregarProdutos();
 
-    } catch (error) {
-      alert(error.message);
-      excluir.disabled = false;
-    }
-  });
+      } catch (error) {
+        alert(error.message);
+        excluir.disabled = false;
+      }
+    });
 
-  card.appendChild(excluir);
+    card.appendChild(excluir);
+  }
 
   return card;
 }
+
 
 // CARREGAR PRODUTOS DO VENDEDOR
 async function carregarProdutos() {
