@@ -59,35 +59,43 @@ function criarCard(produto, parceiro = false) {
   const card = document.createElement("article");
   card.className = "public-card";
 
-if (parceiro) {
-  const label = document.createElement("span");
-  label.className = "partner-label";
 
-  label.append("PARCEIRO: ");
+  if (parceiro) {
+    const label = document.createElement("span");
+    label.className = "partner-label";
 
-  const linkVendedor = document.createElement("a");
+    label.append("PARCEIRO: ");
 
-  linkVendedor.textContent =
-    produto.vendedor_nome || "Vendedor";
+    const linkVendedor = document.createElement("a");
 
-  linkVendedor.href =
-    `/vitrine/${encodeURIComponent(produto.vendedor_slug)}`;
+    linkVendedor.textContent =
+      produto.vendedor_nome_exibicao ||
+      produto.vendedor_nome ||
+      "Vendedor";
 
-  linkVendedor.addEventListener("click", (event) => {
-    if (!visitanteLogado) {
-      event.preventDefault();
+    if (produto.vendedor_slug) {
+      linkVendedor.href =
+        `/vitrine/${encodeURIComponent(produto.vendedor_slug)}`;
 
-      window.open(
-        linkVendedor.href,
-        "_blank",
-        "noopener,noreferrer"
-      );
+      linkVendedor.addEventListener("click", (event) => {
+        if (!visitanteLogado) {
+          event.preventDefault();
+
+          window.open(
+            linkVendedor.href,
+            "_blank",
+            "noopener,noreferrer"
+          );
+        }
+      });
+    } else {
+      linkVendedor.removeAttribute("href");
     }
-  });
 
-  label.appendChild(linkVendedor);
-  card.appendChild(label);
-}
+    label.appendChild(linkVendedor);
+    card.appendChild(label);
+  }
+
 
   if (produto.imagem_url) {
     const imagem = document.createElement("img");
