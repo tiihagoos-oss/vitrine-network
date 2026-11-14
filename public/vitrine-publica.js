@@ -59,14 +59,32 @@ function criarCard(produto, parceiro = false) {
   const card = document.createElement("article");
   card.className = "public-card";
 
-  if (parceiro) {
-    const label = document.createElement("span");
-    label.className = "partner-label";
-    label.textContent =
-      `PARCEIRO: ${produto.vendedor_nome || "Vendedor"}`;
+if (parceiro) {
+  const label = document.createElement("a");
 
-    card.appendChild(label);
+  label.className = "partner-label";
+
+  const nomeParceiro =
+    produto.vendedor_nome_exibicao ||
+    produto.vendedor_nome ||
+    "Vendedor";
+
+  label.textContent = `PARCEIRO: ${nomeParceiro}`;
+
+  if (produto.vendedor_slug) {
+    label.href =
+      `/vitrine/${encodeURIComponent(produto.vendedor_slug)}`;
+
+    if (visitanteLogado) {
+      label.target = "_self";
+    } else {
+      label.target = "_blank";
+      label.rel = "noopener noreferrer";
+    }
   }
+
+  card.appendChild(label);
+}
 
   if (produto.imagem_url) {
     const imagem = document.createElement("img");
