@@ -309,6 +309,10 @@ async function iniciarVitrine() {
 
 
 
+// ======================================
+// EDIÇÃO DO PERFIL DO VENDEDOR
+// ======================================
+
 
 async function preencherFormularioPerfil() {
   try {
