@@ -311,55 +311,6 @@ async function iniciarVitrine() {
 
 
 
-// ABRIR EDICAO DO PERFIL
-editProfileButton.addEventListener("click", async () => {
-  await preencherFormularioPerfil();
-
-  editProfileForm.hidden = false;
-
-  editProfileForm.scrollIntoView({
-    behavior: "smooth",
-    block: "center"
-  });
-});
-
-// CANCELAR EDICAO
-cancelProfileEdit.addEventListener("click", () => {
-  editProfileForm.hidden = true;
-  profileMessage.textContent = "";
-});
-
-// SALVAR PERFIL
-profileForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  profileMessage.textContent = "Salvando...";
-  profileMessage.style.color = "";
-
-  try {
-    await requisicao("/api/profile", {
-      method: "PUT",
-      body: JSON.stringify({
-        nome_exibicao: document.getElementById("nomeExibicao").value,
-        bio: document.getElementById("bioPerfil").value,
-        foto_perfil: document.getElementById("fotoPerfil").value,
-        foto_capa: document.getElementById("fotoCapa").value
-      })
-    });
-
-    profileMessage.style.color = "#168451";
-    profileMessage.textContent = "Perfil atualizado com sucesso!";
-
-    await carregarVendedor();
-
-  } catch (error) {
-    profileMessage.style.color = "#c0392b";
-    profileMessage.textContent = error.message;
-  }
-});
-
-
-
 
 
 
