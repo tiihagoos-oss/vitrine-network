@@ -572,22 +572,24 @@ if (method === "PUT" && path === "/api/profile") {
     `).bind(vendedor.id).all();
 
     // 8 PRODUTOS ALEATORIOS DE OUTROS VENDEDORES
-    const parceiros = await env.DB.prepare(`
-      SELECT
-        p.id,
-        p.nome,
-        p.descricao,
-        p.imagem_url,
-        p.link_url,
-        v.nome AS vendedor_nome
-      FROM produtos p
-      JOIN vendedores v ON v.id = p.vendedor_id
-      WHERE p.vendedor_id != ?
-        AND p.ativo = 1
-        AND v.ativo = 1
-      ORDER BY RANDOM()
-      LIMIT 8
-    `).bind(vendedor.id).all();
+const parceiros = await env.DB.prepare(`
+  SELECT
+    p.id,
+    p.nome,
+    p.descricao,
+    p.imagem_url,
+    p.link_url,
+    v.nome AS vendedor_nome,
+    v.nome_exibicao AS vendedor_nome_exibicao,
+    v.slug AS vendedor_slug
+  FROM produtos p
+  JOIN vendedores v ON v.id = p.vendedor_id
+  WHERE p.vendedor_id != ?
+    AND p.ativo = 1
+    AND v.ativo = 1
+  ORDER BY RANDOM()
+  LIMIT 8
+`).bind(vendedor.id).all();
 
  return json({
   sucesso: true,
