@@ -400,12 +400,9 @@ if (method === "PUT" && path === "/api/profile") {
   }
 
 
-  
 
 
-  
-  
-  // LISTAR PRODUTOS DO VENDEDOR
+  // LISTAR PRODUTOS DO VENDEDOR E DOS PARCEIROS
   if (method === "GET" && path === "/api/products") {
     const user = await currentUser(request, env);
 
@@ -413,15 +410,43 @@ if (method === "PUT" && path === "/api/profile") {
       return json({ error: "Faça login para continuar." }, 401);
     }
 
+    // PRODUTOS DO PRÓPRIO VENDEDOR
     const result = await env.DB.prepare(`
       SELECT id, nome, descricao, imagem_url, link_url, ativo, criado_em
       FROM produtos
       WHERE vendedor_id = ?
+        AND ativo = 1
       ORDER BY id DESC
     `).bind(user.id).all();
 
-    return json({ produtos: result.results });
+    // 8 PRODUTOS DE OUTROS VENDEDORES
+    const parceiros = await env.DB.prepare(`
+      SELECT
+        p.id,
+        p.nome,
+        p.descricao,
+        p.imagem_url,
+        p.link_url,
+        v.nome AS vendedor_nome,
+        v.nome_exibicao AS vendedor_nome_exibicao,
+        v.slug AS vendedor_slug
+      FROM produtos p
+      JOIN vendedores v ON v.id = p.vendedor_id
+      WHERE p.vendedor_id != ?
+        AND p.ativo = 1
+        AND v.ativo = 1
+      ORDER BY RANDOM()
+      LIMIT 8
+    `).bind(user.id).all();
+
+    return json({
+      produtos: result.results,
+      parceiros: parceiros.results
+    });
   }
+
+
+  
 
   // CADASTRAR PRODUTO
   if (method === "POST" && path === "/api/products") {
