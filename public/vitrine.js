@@ -310,25 +310,6 @@ async function iniciarVitrine() {
 
 
 
-
-
-
-
-
-
-// ======================================
-// EDIÇÃO DO PERFIL DO VENDEDOR
-// ======================================
-
-const editProfileButton = document.getElementById("editProfileButton");
-const editProfileForm = document.getElementById("editProfileForm");
-const profileForm = document.getElementById("profileForm");
-const cancelProfileEdit = document.getElementById("cancelProfileEdit");
-const profileMessage = document.getElementById("profileMessage");
-
-let perfilAtual = {};
-
-
 async function preencherFormularioPerfil() {
   try {
     const data = await requisicao("/api/profile");
