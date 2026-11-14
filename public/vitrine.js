@@ -316,11 +316,6 @@ async function iniciarVitrine() {
 
 
 
-
-iniciarVitrine();
-
-
-
 // ======================================
 // EDIÇÃO DO PERFIL DO VENDEDOR
 // ======================================
@@ -415,3 +410,6 @@ profileForm.addEventListener("submit", async event => {
     button.textContent = "Salvar alterações";
   }
 });
+
+// INICIAR PAINEL
+iniciarVitrine();
