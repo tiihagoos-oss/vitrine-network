@@ -118,17 +118,6 @@ if (bio && vendedor.bio) {
   
 
 
-  const avatar = document.querySelector(".social-profile .profile-avatar");
-
-if (avatar) {
-  avatar.textContent = vendedor.nome
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map(parte => parte.charAt(0).toUpperCase())
-    .join("");
-}
-
 
 
 
