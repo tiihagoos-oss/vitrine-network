@@ -302,34 +302,62 @@ function montarProduto(produto, parceiro = false) {
 
 
 // CARREGAR PRODUTOS DO VENDEDOR
+
 async function carregarProdutos() {
   try {
     productsList.textContent = "Carregando produtos...";
+    partnerProducts.textContent = "Carregando parceiros...";
 
     const data = await requisicao("/api/products");
 
+    // SEPARAR OS DOIS GRUPOS
+    const produtos = Array.isArray(data.produtos)
+      ? data.produtos
+      : [];
+
+    const parceiros = Array.isArray(data.parceiros)
+      ? data.parceiros
+      : [];
+
+    // MOSTRAR PRODUTOS PRÓPRIOS
     productsList.replaceChildren();
 
     productCount.textContent =
-      `${data.produtos.length} produtos`;
+      `${produtos.length} produtos`;
 
-    if (data.produtos.length === 0) {
+    if (produtos.length === 0) {
       productsList.textContent =
         "Você ainda não cadastrou produtos. Clique em Adicionar produto para começar.";
-
-      return;
+    } else {
+      produtos.forEach(produto => {
+        productsList.appendChild(
+          montarProduto(produto, false)
+        );
+      });
     }
 
-    data.produtos.forEach(produto => {
-      productsList.appendChild(
-        montarProduto(produto)
-      );
-    });
+    // MOSTRAR PRODUTOS DOS PARCEIROS
+    partnerProducts.replaceChildren();
+
+    if (parceiros.length === 0) {
+      partnerProducts.textContent =
+        "Ainda não há produtos de parceiros disponíveis.";
+    } else {
+      parceiros.forEach(produto => {
+        partnerProducts.appendChild(
+          montarProduto(produto, true)
+        );
+      });
+    }
 
   } catch (error) {
     productsList.textContent = error.message;
+
+    partnerProducts.textContent =
+      "Não foi possível carregar os produtos dos parceiros.";
   }
 }
+
 
 // INICIAR PAINEL
 async function iniciarVitrine() {
