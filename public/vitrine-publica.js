@@ -60,29 +60,32 @@ function criarCard(produto, parceiro = false) {
   card.className = "public-card";
 
 if (parceiro) {
-  const label = document.createElement("a");
-
+  const label = document.createElement("span");
   label.className = "partner-label";
 
-  const nomeParceiro =
-    produto.vendedor_nome_exibicao ||
-    produto.vendedor_nome ||
-    "Vendedor";
+  label.append("PARCEIRO: ");
 
-  label.textContent = `PARCEIRO: ${nomeParceiro}`;
+  const linkVendedor = document.createElement("a");
 
-  if (produto.vendedor_slug) {
-    label.href =
-      `/vitrine/${encodeURIComponent(produto.vendedor_slug)}`;
+  linkVendedor.textContent =
+    produto.vendedor_nome || "Vendedor";
 
-    if (visitanteLogado) {
-      label.target = "_self";
-    } else {
-      label.target = "_blank";
-      label.rel = "noopener noreferrer";
+  linkVendedor.href =
+    `/vitrine/${encodeURIComponent(produto.vendedor_slug)}`;
+
+  linkVendedor.addEventListener("click", (event) => {
+    if (!visitanteLogado) {
+      event.preventDefault();
+
+      window.open(
+        linkVendedor.href,
+        "_blank",
+        "noopener,noreferrer"
+      );
     }
-  }
+  });
 
+  label.appendChild(linkVendedor);
   card.appendChild(label);
 }
 
