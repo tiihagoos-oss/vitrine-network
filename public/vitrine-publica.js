@@ -3,6 +3,8 @@ const myProducts = document.getElementById("myProducts");
 const partnerProducts = document.getElementById("partnerProducts");
 const sellerName = document.getElementById("sellerName");
 
+let visitanteLogado = false;
+
 // INICIAIS DO VENDEDOR
 function gerarIniciais(nome) {
   return String(nome || "Vendedor")
