@@ -1855,3 +1855,100 @@ body.auth-page {
   background-position: center;
   background-repeat: no-repeat;
 }
+
+
+/* =========================================
+   VITRINE COMPACTA - ETAPA 1
+   Produtos próprios com maior destaque
+   Produtos de parceiros mais compactos
+========================================= */
+
+/* PRODUTOS DO PROPRIO VENDEDOR */
+
+#myProducts.public-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+#myProducts .public-card {
+  padding: 14px;
+}
+
+#myProducts .public-card h3 {
+  font-size: 16px;
+}
+
+/* PRODUTOS DE PARCEIROS */
+
+#partnerProducts.public-grid {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 12px;
+}
+
+#partnerProducts .public-card {
+  padding: 9px;
+}
+
+#partnerProducts .public-card img {
+  border-radius: 8px;
+}
+
+#partnerProducts .public-card h3 {
+  font-size: 14px;
+  margin: 8px 0 5px;
+}
+
+#partnerProducts .public-card p {
+  font-size: 12px;
+}
+
+#partnerProducts .public-card a {
+  padding: 9px 6px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* TABLETS */
+
+@media (max-width: 900px) {
+  #myProducts.public-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #partnerProducts.public-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* CELULARES */
+
+@media (max-width: 700px) {
+  #myProducts.public-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  #partnerProducts.public-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  #myProducts .public-card {
+    padding: 10px;
+  }
+
+  #partnerProducts .public-card {
+    padding: 8px;
+  }
+}
+
+/* CELULARES ESTREITOS */
+
+@media (max-width: 380px) {
+  #myProducts.public-grid,
+  #partnerProducts.public-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
